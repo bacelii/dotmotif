@@ -2,7 +2,26 @@
 
 import os
 import io
-from setuptools import find_packages, setup, Command
+from pathlib import Path
+from setuptools import setup, find_packages, Command
+from typing import List
+
+def get_install_requires(filepath=None):
+    if filepath is None:
+        filepath = "./"
+    """Returns requirements.txt parsed to a list"""
+    fname = Path(filepath).parent / 'requirements.txt'
+    targets = []
+    if fname.exists():
+        with open(fname, 'r') as f:
+            targets = f.read().splitlines()
+    return targets
+
+def get_links():
+    return [
+        #"git+https://github.com/bacelii/machine_learning_tools.git"
+    ]
+
 
 """
 git tag {VERSION}
@@ -30,17 +49,7 @@ setup(
     url="https://github.com/aplbrain/dotmotif/tarball/" + VERSION,
     packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
     classifiers=[],
-    install_requires=[
-        "networkx",
-        "numpy",
-        "lark-parser",
-        "docker",
-        "pandas",
-        "py2neo",
-        "dask[dataframe]",
-        "tamarind>=0.1.5",
-        "neuprint-python",
-        "grandiso<2.0.0",
-    ],
+    install_requires=get_install_requires(), #external packages as dependencies
+    dependency_links = get_links(),
     include_package_data=True,
 )
