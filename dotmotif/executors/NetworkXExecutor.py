@@ -241,7 +241,7 @@ class NetworkXExecutor(Executor):
             
         #print(f"multi_edge = {multi_edge}")
         
-        if motif.ignore_direction or not self.graph.is_directed:
+        if motif.ignore_direction or not self.graph.is_directed():
             graph_constructor = nx.Graph
             graph_matcher = nx.algorithms.isomorphism.GraphMatcher
         else:
